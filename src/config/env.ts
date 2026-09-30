@@ -37,6 +37,7 @@ const envSchema = z.object({
       1,
       "TRIPXL_ACCESS_KEY is required"
     ),
+    FRONTEND_URL:z.string().default("FRONTEND_URL")
 });
 
 const result = envSchema.safeParse(process.env);

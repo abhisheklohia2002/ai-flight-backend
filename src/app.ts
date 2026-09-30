@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 
 import chatRoutes from "./modules/chat/chat.routes.js";
+import { env } from "./config/env.js";
 
 export const app =
   express();
@@ -16,6 +17,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
+      env.FRONTEND_URL
     ],
 
     methods: [
