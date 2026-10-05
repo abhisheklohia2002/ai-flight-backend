@@ -49,15 +49,6 @@ export const validateSearchNode:
       );
     }
 
-    if (
-      search.adults === undefined ||
-      search.adults < 1
-    ) {
-      missingFields.push(
-        "adults"
-      );
-    }
-
     if (!search.tripType) {
       missingFields.push(
         "tripType"

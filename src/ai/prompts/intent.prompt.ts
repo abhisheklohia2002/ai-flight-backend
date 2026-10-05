@@ -20,9 +20,12 @@ SEARCH_FLIGHT
   "Delhi to Mumbai tomorrow"
 
 MODIFY_SEARCH
-- User is modifying an existing flight search.
+- User is modifying or completing an existing flight search.
 - Examples:
   "Make it 2 adults"
+  "2 adults, 1 child, no infant, economy"
+  "Business class"
+  "1 adult"
   "Change it to tomorrow"
   "10 October 2026"
   "Only SpiceJet"

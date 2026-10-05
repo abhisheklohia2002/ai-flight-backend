@@ -49,6 +49,8 @@ import {
   filterFlightResultsNode,
 } from "../nodes/filter-flight-results.node.js";
 import { resetSearchNode } from "../nodes/reset-search.node.js";
+import { selectAirportNode } from "../nodes/select-airport.node.js";
+import { syncOriginNode } from "../nodes/sync-origin.node.js";
 
 
 
@@ -97,6 +99,16 @@ function routeConversationEntry(
   state:
     typeof FlightAssistantState.State
 ) {
+
+  if (state.originToSync) {
+    return "syncOrigin";
+  }
+
+  if (
+    state.pendingAirportSelection
+  ) {
+    return "selectAirport";
+  }
 
   if (
     state.missingFields &&
@@ -185,6 +197,12 @@ function routeAfterValidation(
   /*
    * Airport/date resolution problem.
    */
+  if (
+    state.pendingAirportSelection
+  ) {
+    return "askMissingInfo";
+  }
+
   if (
     state.resolutionErrors.length > 0
   ) {
@@ -356,6 +374,16 @@ const workflow =
     )
 
     .addNode(
+      "selectAirport",
+      selectAirportNode
+    )
+
+    .addNode(
+      "syncOrigin",
+      syncOriginNode
+    )
+
+    .addNode(
       "resolveSearch",
       resolveSearchNode
     )
@@ -425,6 +453,12 @@ const workflow =
 
         extractSearch:
           "extractSearch",
+
+        selectAirport:
+          "selectAirport",
+
+        syncOrigin:
+          "syncOrigin",
       }
     )
 
@@ -469,6 +503,16 @@ const workflow =
     .addEdge(
       "extractSearch",
       "resolveSearch"
+    )
+
+    .addEdge(
+      "selectAirport",
+      "validateSearch"
+    )
+
+    .addEdge(
+      "syncOrigin",
+      END
     )
 
     .addEdge(

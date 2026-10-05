@@ -17,6 +17,8 @@ export class ChatService {
     const {
       sessionId,
       message,
+      action,
+      origin,
     } = request;
 
 
@@ -27,6 +29,8 @@ export class ChatService {
 
           lastUserMessage:
             message,
+
+          originToSync: action === "SET_ORIGIN" ? origin : undefined,
         },
 
         {
@@ -36,6 +40,10 @@ export class ChatService {
           },
         }
       );
+
+    if (action === "SET_ORIGIN") {
+      return { sessionId, type: "MESSAGE", message: "", data: { search: result.search } };
+    }
 
 
     /*
@@ -52,6 +60,18 @@ export class ChatService {
         message:
           result.assistantMessage ??
           "Something went wrong while processing your request.",
+      };
+    }
+
+    if (result.pendingAirportSelection && result.airportCandidates.length > 0) {
+      return {
+        sessionId,
+        type: "AIRPORT_SELECTION",
+        message: "I found multiple airport options. Which airport would you like to use?",
+        data: {
+          airportSelectionFor: result.pendingAirportSelection,
+          airports: result.airportCandidates,
+        },
       };
     }
 

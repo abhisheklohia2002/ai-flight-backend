@@ -13,7 +13,11 @@ export const searchFlightsNode: GraphNode<typeof FlightAssistantState> = async (
     !search ||
     !search.origin ||
     !search.destination ||
-    !search.departureDate
+    !search.departureDate ||
+    search.adults === undefined ||
+    search.children === undefined ||
+    search.infants === undefined ||
+    search.cabinClass === undefined
   ) {
     return {
       error: "Search parameters are incomplete.",

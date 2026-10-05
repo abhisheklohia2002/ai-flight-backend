@@ -7,6 +7,13 @@ import { FlightOptionSchema } from "../schemas/flight-option.schema.js";
 import { CalendarFareExtractionSchema } from "../schemas/calendar-fare-extraction.schema.js";
 import { CalendarFareResultSchema } from "../schemas/calendar-fare-result.schema.js";
 
+const AirportSchema = z.object({
+  name: z.string(), code: z.string(), city: z.string(), country: z.string(), radius: z.number(),
+  nearbyAirports: z.array(z.object({
+    name: z.string(), code: z.string(), city: z.string(), country: z.string(), distance: z.number(),
+  })),
+});
+
 const SearchStateSchema = z.object({
   origin: z.string().optional(),
   destination: z.string().optional(),
@@ -16,15 +23,15 @@ const SearchStateSchema = z.object({
 
   tripType: z.enum(["ONE_WAY", "ROUND_TRIP"]).default("ONE_WAY"),
 
-  adults: z.number().int().min(1).default(1),
+  adults: z.number().int().min(1).optional(),
 
-  children: z.number().int().min(0).default(0),
+  children: z.number().int().min(0).optional(),
 
-  infants: z.number().int().min(0).default(0),
+  infants: z.number().int().min(0).optional(),
 
   cabinClass: z
     .enum(["ECONOMY", "PREMIUM_ECONOMY", "BUSINESS", "FIRST"])
-    .default("ECONOMY"),
+    .optional(),
 
   preferredAirline: z.string().optional(),
 
@@ -41,6 +48,7 @@ export const FlightAssistantState = new StateSchema({
   sessionId: z.string(),
 
   lastUserMessage: z.string().optional(),
+  originToSync: z.string().optional(),
 
   intent: z
     .enum([
@@ -89,4 +97,6 @@ export const FlightAssistantState = new StateSchema({
   calendarResults: z.array(CalendarFareResultSchema).default([]),
 
   allSearchResults: z.array(FlightOptionSchema).default([]),
+  pendingAirportSelection: z.enum(["ORIGIN", "DESTINATION"]).nullable().default(null),
+  airportCandidates: z.array(AirportSchema).default([]),
 });

@@ -37,7 +37,11 @@ const envSchema = z.object({
       1,
       "TRIPXL_ACCESS_KEY is required"
     ),
-    FRONTEND_URL:z.string().default("FRONTEND_URL")
+    FRONTEND_URL:z.string().default("FRONTEND_URL"),
+    TRIPXL_AIRPORT_SEARCH_PATH:
+  z.string().default(
+    "/flight/v1/airport/details/library"
+  ),
 });
 
 const result = envSchema.safeParse(process.env);

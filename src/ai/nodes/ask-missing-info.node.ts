@@ -80,8 +80,21 @@ export const askMissingInfoNode:
     /*
      * Missing field.
      */
-    const firstMissingField =
-      state.missingFields?.[0];
+    const missingFields = state.missingFields ?? [];
+
+    if (
+      missingFields.includes("adults") ||
+      missingFields.includes("children") ||
+      missingFields.includes("infants") ||
+      missingFields.includes("cabinClass")
+    ) {
+      return {
+        assistantMessage:
+          "How many adults, children, and infants are travelling, and which cabin class would you like? For example: 2 adults, 1 child, 0 infants, Economy.",
+      };
+    }
+
+    const firstMissingField = missingFields[0];
 
     if (firstMissingField) {
 

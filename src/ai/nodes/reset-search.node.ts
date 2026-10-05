@@ -8,7 +8,7 @@ import {
 
 export const resetSearchNode:
   GraphNode<typeof FlightAssistantState> =
-  async () => {
+  async (state) => {
 
     console.log(
       "Starting new flight search"
@@ -16,20 +16,14 @@ export const resetSearchNode:
 
     return {
       search: {
+        origin: state.search?.origin,
         tripType:
           "ONE_WAY",
 
-        adults:
-          1,
-
-        children:
-          0,
-
-        infants:
-          0,
-
-        cabinClass:
-          "ECONOMY",
+        adults: 1,
+        children: 0,
+        infants: 0,
+        cabinClass: "ECONOMY",
 
         nonStopOnly:
           false,
@@ -61,5 +55,9 @@ export const resetSearchNode:
 
       assistantMessage:
         undefined,
+
+      pendingAirportSelection: null,
+
+      airportCandidates: [],
     };
   };

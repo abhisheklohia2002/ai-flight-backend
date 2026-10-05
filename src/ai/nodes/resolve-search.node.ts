@@ -9,8 +9,12 @@ import {
 } from "../graph/state.js";
 
 import {
-  resolveAirport,
-} from "../../modules/airport/airport.service.js";
+  resolveAirportSearch,
+} from "../../modules/flight/application/search-airport.service.js";
+
+import type {
+  Airport,
+} from "../../modules/flight/domain/airport.js";
 
 import {
   resolveTravelDate,
@@ -35,15 +39,6 @@ export const resolveSearchNode:
       tripType:
         "ONE_WAY" as const,
 
-      adults: 1,
-
-      children: 0,
-
-      infants: 0,
-
-      cabinClass:
-        "ECONOMY" as const,
-
       nonStopOnly: false,
 
       ...state.search,
@@ -52,39 +47,30 @@ export const resolveSearchNode:
     const errors:
       string[] = [];
 
-    if (
-      extracted.originText !== null
-    ) {
-      const airport =
-        resolveAirport(
-          extracted.originText
-        );
+    let pendingAirportSelection: "ORIGIN" | "DESTINATION" | null = null;
+    let airportCandidates: Airport[] = [];
 
-      if (!airport) {
-        errors.push(
-          `Unable to resolve origin airport: ${extracted.originText}`
-        );
+    if (extracted.originText !== null) {
+      const resolution = await resolveAirportSearch(extracted.originText);
+      if (resolution.kind === "RESOLVED") {
+        search.origin = resolution.airport.code;
+      } else if (resolution.kind === "AMBIGUOUS") {
+        pendingAirportSelection = "ORIGIN";
+        airportCandidates = resolution.airports;
       } else {
-        search.origin =
-          airport.code;
+        errors.push(`I couldn't find an airport matching ${extracted.originText}. Please provide a city or airport.`);
       }
     }
 
-    if (
-      extracted.destinationText !== null
-    ) {
-      const airport =
-        resolveAirport(
-          extracted.destinationText
-        );
-
-      if (!airport) {
-        errors.push(
-          `Unable to resolve destination airport: ${extracted.destinationText}`
-        );
+    if (extracted.destinationText !== null) {
+      const resolution = await resolveAirportSearch(extracted.destinationText);
+      if (resolution.kind === "RESOLVED") {
+        search.destination = resolution.airport.code;
+      } else if (resolution.kind === "AMBIGUOUS" && pendingAirportSelection === null) {
+        pendingAirportSelection = "DESTINATION";
+        airportCandidates = resolution.airports;
       } else {
-        search.destination =
-          airport.code;
+        errors.push(`I couldn't find an airport matching ${extracted.destinationText}. Please provide a city or airport.`);
       }
     }
 
@@ -141,33 +127,11 @@ export const resolveSearchNode:
         extracted.tripType;
     }
 
-    if (
-      extracted.adults !== null
-    ) {
-      search.adults =
-        extracted.adults;
-    }
-
-    if (
-      extracted.children !== null
-    ) {
-      search.children =
-        extracted.children;
-    }
-
-    if (
-      extracted.infants !== null
-    ) {
-      search.infants =
-        extracted.infants;
-    }
-
-    if (
-      extracted.cabinClass !== null
-    ) {
-      search.cabinClass =
-        extracted.cabinClass;
-    }
+    // Preserve deterministic defaults while accepting explicit zero values.
+    search.adults = extracted.adults ?? search.adults;
+    search.children = extracted.children ?? search.children;
+    search.infants = extracted.infants ?? search.infants;
+    search.cabinClass = extracted.cabinClass ?? search.cabinClass;
 
     if (
       extracted.preferredAirline !== null
@@ -201,5 +165,7 @@ export const resolveSearchNode:
       search,
       resolutionErrors:
         errors,
+      pendingAirportSelection,
+      airportCandidates,
     };
   };
