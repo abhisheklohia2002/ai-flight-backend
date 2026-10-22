@@ -1,58 +1,32 @@
-import {
-  START,
-  END,
-  StateGraph,
-  MemorySaver,
-} from "@langchain/langgraph";
+import { START, END, StateGraph, MemorySaver } from "@langchain/langgraph";
 
-import {
-  FlightAssistantState,
-} from "./state.js";
+import { FlightAssistantState } from "./state.js";
 
-import {
-  detectIntentNode,
-} from "../nodes/detect-intent.node.js";
+import { detectIntentNode } from "../nodes/detect-intent.node.js";
 
-import {
-  extractSearchNode,
-} from "../nodes/extract-search.node.js";
+import { extractSearchNode } from "../nodes/extract-search.node.js";
 
-import {
-  resolveSearchNode,
-} from "../nodes/resolve-search.node.js";
+import { resolveSearchNode } from "../nodes/resolve-search.node.js";
 
-import {
-  validateSearchNode,
-} from "../nodes/validate-search.node.js";
+import { validateSearchNode } from "../nodes/validate-search.node.js";
 
-import {
-  askMissingInfoNode,
-} from "../nodes/ask-missing-info.node.js";
+import { askMissingInfoNode } from "../nodes/ask-missing-info.node.js";
 
-import {
-  searchFlightsNode,
-} from "../nodes/search-flights.node.js";
+import { searchFlightsNode } from "../nodes/search-flights.node.js";
 
-import {
-  extractCalendarFareNode,
-} from "../nodes/extract-calendar-fare.node.js";
+import { extractCalendarFareNode } from "../nodes/extract-calendar-fare.node.js";
 
-import {
-  resolveCalendarFareNode,
-} from "../nodes/resolve-calendar-fare.node.js";
+import { resolveCalendarFareNode } from "../nodes/resolve-calendar-fare.node.js";
 
-import {
-  calendarFareNode,
-} from "../nodes/calendar-fare.node.js";
+import { calendarFareNode } from "../nodes/calendar-fare.node.js";
 
-import {
-  filterFlightResultsNode,
-} from "../nodes/filter-flight-results.node.js";
+import { filterFlightResultsNode } from "../nodes/filter-flight-results.node.js";
 import { resetSearchNode } from "../nodes/reset-search.node.js";
 import { selectAirportNode } from "../nodes/select-airport.node.js";
 import { syncOriginNode } from "../nodes/sync-origin.node.js";
-
-
+import { startBookingNode } from "../nodes/start-booking.node.js";
+import { submitPassengerDetailsNode } from "../nodes/submit-passenger-details.node.js";
+import { prepareBookingNode } from "../nodes/prepare-booking.node.js";
 
 /*
  * Runs at the beginning of every graph invocation.
@@ -61,24 +35,13 @@ import { syncOriginNode } from "../nodes/sync-origin.node.js";
  * but DO NOT clear search/memory because
  * follow-up messages need it.
  */
-async function initializeAssistant(
-  state:
-    typeof FlightAssistantState.State
-) {
-  console.log(
-    "Session:",
-    state.sessionId
-  );
-
+async function initializeAssistant(state: typeof FlightAssistantState.State) {
   return {
-    error:
-      undefined,
+    error: undefined,
 
-    assistantMessage:
-      undefined,
+    assistantMessage: undefined,
   };
 }
-
 
 /*
  * Decide whether the current message
@@ -95,69 +58,64 @@ async function initializeAssistant(
  * In this case we skip intent detection
  * and directly extract the missing data.
  */
-function routeConversationEntry(
-  state:
-    typeof FlightAssistantState.State
+function routeConversationEntry(state: typeof FlightAssistantState.State) {
+  if (state.requestedAction === "START_BOOKING") {
+    return "startBooking";
+  }
+  if (
+  state.requestedAction ===
+  "SUBMIT_PASSENGER_DETAILS"
 ) {
+
+  return "submitPassengerDetails";
+}
+  if (state.requestedAction === "PREPARE_BOOKING") return "prepareBooking";
 
   if (state.originToSync) {
     return "syncOrigin";
   }
 
-  if (
-    state.pendingAirportSelection
-  ) {
+  if (state.pendingAirportSelection) {
+    return "selectAirport";
+  }
+  if (state.originToSync) {
+    return "syncOrigin";
+  }
+
+  if (state.pendingAirportSelection) {
     return "selectAirport";
   }
 
-  if (
-    state.missingFields &&
-    state.missingFields.length > 0
-  ) {
-
-    console.log(
-      "Continuing existing flight search"
-    );
+  if (state.missingFields && state.missingFields.length > 0) {
+    console.log("Continuing existing flight search");
 
     return "extractSearch";
   }
 
-
-  if (
-    state.resolutionErrors &&
-    state.resolutionErrors.length > 0
-  ) {
-
-    console.log(
-      "Retrying search field resolution"
-    );
+  if (state.resolutionErrors && state.resolutionErrors.length > 0) {
+    console.log("Retrying search field resolution");
 
     return "extractSearch";
   }
-
 
   return "detectIntent";
 }
 
-
 /*
  * Route based on detected user intent.
  */
-function routeAfterIntent(
-  state:
-    typeof FlightAssistantState.State
-) {
-
+function routeAfterIntent(state: typeof FlightAssistantState.State) {
   switch (state.intent) {
-
     /*
      * Brand-new search.
      *
      * We reset old route/date/filter/result state.
      */
+
+    case "START_BOOKING":
+      return "startBooking";
     case "SEARCH_FLIGHT":
       return "resetSearch";
-
 
     /*
      * Modify existing search.
@@ -170,65 +128,47 @@ function routeAfterIntent(
     case "MODIFY_SEARCH":
       return "extractSearch";
 
-
     /*
      * Calendar fare endpoint.
      */
     case "CALENDAR_SEARCH":
       return "extractCalendarFare";
 
-
     default:
       return "unsupported";
   }
 }
-
 
 /*
  * After search information has been
  * extracted, resolved and validated,
  * decide what to do next.
  */
-function routeAfterValidation(
-  state:
-    typeof FlightAssistantState.State
-) {
-
+function routeAfterValidation(state: typeof FlightAssistantState.State) {
   /*
    * Airport/date resolution problem.
    */
-  if (
-    state.pendingAirportSelection
-  ) {
+  if (state.pendingAirportSelection) {
     return "askMissingInfo";
   }
 
-  if (
-    state.resolutionErrors.length > 0
-  ) {
+  if (state.resolutionErrors.length > 0) {
     return "askMissingInfo";
   }
-
 
   /*
    * Business validation problem.
    */
-  if (
-    state.validationErrors.length > 0
-  ) {
+  if (state.validationErrors.length > 0) {
     return "askMissingInfo";
   }
-
 
   /*
    * Required information still missing.
    */
-  if (
-    state.missingFields.length > 0
-  ) {
+  if (state.missingFields.length > 0) {
     return "askMissingInfo";
   }
-
 
   /*
    * MODIFY_SEARCH may only contain
@@ -244,18 +184,10 @@ function routeAfterValidation(
    * In that case we don't need another
    * TripXL API call if results already exist.
    */
-  if (
-    state.intent ===
-      "MODIFY_SEARCH" &&
-    state.allSearchResults.length > 0
-  ) {
-
-    const extracted =
-      state.extractedSearch;
-
+  if (state.intent === "MODIFY_SEARCH" && state.allSearchResults.length > 0) {
+    const extracted = state.extractedSearch;
 
     if (extracted) {
-
       /*
        * These fields affect the actual
        * flight search/fare.
@@ -274,18 +206,13 @@ function routeAfterValidation(
         extracted.infants !== null ||
         extracted.cabinClass !== null;
 
-
       if (!requiresNewSearch) {
-
-        console.log(
-          "Using existing results for filtering"
-        );
+        console.log("Using existing results for filtering");
 
         return "filterFlightResults";
       }
     }
   }
-
 
   /*
    * New search or meaningful search
@@ -294,44 +221,27 @@ function routeAfterValidation(
   return "searchFlights";
 }
 
-
 /*
  * TripXL search can fail.
  *
  * If it fails, don't send an empty
  * result set into filterFlightResults.
  */
-function routeAfterFlightSearch(
-  state:
-    typeof FlightAssistantState.State
-) {
-
+function routeAfterFlightSearch(state: typeof FlightAssistantState.State) {
   if (state.error) {
-
-    console.log(
-      "Flight search failed - skipping filtering"
-    );
+    console.log("Flight search failed - skipping filtering");
 
     return "end";
   }
 
-
   return "filterFlightResults";
 }
-
 
 /*
  * Intents we haven't implemented yet.
  */
-async function unsupportedNode(
-  state:
-    typeof FlightAssistantState.State
-) {
-
-  console.log(
-    "Unsupported intent:",
-    state.intent
-  );
+async function unsupportedNode(state: typeof FlightAssistantState.State) {
+  console.log("Unsupported intent:", state.intent);
 
   return {
     assistantMessage:
@@ -339,277 +249,171 @@ async function unsupportedNode(
   };
 }
 
-
 /*
  * GRAPH
  */
-const workflow =
-  new StateGraph(
-    FlightAssistantState
+const workflow = new StateGraph(FlightAssistantState)
+
+  /*
+   * NODES
+   */
+
+  .addNode("initializeAssistant", initializeAssistant)
+
+  .addNode("detectIntent", detectIntentNode)
+
+  .addNode("resetSearch", resetSearchNode)
+
+  .addNode("extractSearch", extractSearchNode)
+
+  .addNode("selectAirport", selectAirportNode)
+
+  .addNode("syncOrigin", syncOriginNode)
+
+  .addNode("resolveSearch", resolveSearchNode)
+
+  .addNode("validateSearch", validateSearchNode)
+
+  .addNode("askMissingInfo", askMissingInfoNode)
+
+  .addNode("searchFlights", searchFlightsNode)
+
+  .addNode("filterFlightResults", filterFlightResultsNode)
+
+  .addNode("extractCalendarFare", extractCalendarFareNode)
+
+  .addNode("resolveCalendarFare", resolveCalendarFareNode)
+
+  .addNode("calendarFare", calendarFareNode)
+
+  .addNode("unsupported", unsupportedNode)
+  .addNode("startBooking", startBookingNode)
+  .addNode(
+  "submitPassengerDetails",
+  submitPassengerDetailsNode
+)
+  .addNode("prepareBooking", prepareBookingNode)
+
+  /*
+   * START
+   */
+
+  .addEdge(START, "initializeAssistant")
+
+  /*
+   * Decide whether we're handling
+   * a continuation or a new intent.
+   */
+
+  .addConditionalEdges("initializeAssistant", routeConversationEntry, {
+    detectIntent: "detectIntent",
+
+    extractSearch: "extractSearch",
+
+    selectAirport: "selectAirport",
+
+    syncOrigin: "syncOrigin",
+
+    startBooking: "startBooking",
+
+    submitPassengerDetails: "submitPassengerDetails",
+    prepareBooking: "prepareBooking",
+  })
+
+  /*
+   * INTENT ROUTING
+   */
+
+  .addConditionalEdges("detectIntent", routeAfterIntent, {
+    resetSearch: "resetSearch",
+
+    extractSearch: "extractSearch",
+
+    extractCalendarFare: "extractCalendarFare",
+
+    unsupported: "unsupported",
+  })
+
+  /*
+   * NEW SEARCH
+   */
+
+  .addEdge("resetSearch", "extractSearch")
+
+  /*
+   * NORMAL SEARCH FLOW
+   */
+
+  .addEdge("extractSearch", "resolveSearch")
+
+  .addEdge("selectAirport", "validateSearch")
+
+  .addEdge("syncOrigin", END)
+
+  .addEdge("resolveSearch", "validateSearch")
+
+  /*
+   * VALIDATION ROUTING
+   */
+
+  .addConditionalEdges("validateSearch", routeAfterValidation, {
+    askMissingInfo: "askMissingInfo",
+
+    searchFlights: "searchFlights",
+
+    filterFlightResults: "filterFlightResults",
+  })
+
+  /*
+   * ASK USER FOR MISSING DATA
+   */
+
+  .addEdge("askMissingInfo", END)
+
+  /*
+   * AFTER TRIPXL SEARCH
+   *
+   * Success → filtering
+   * Failure → END
+   */
+
+  .addConditionalEdges("searchFlights", routeAfterFlightSearch, {
+    filterFlightResults: "filterFlightResults",
+
+    end: END,
+  })
+
+  /*
+   * FILTERED SEARCH RESULTS
+   */
+
+  .addEdge("filterFlightResults", END)
+
+  /*
+   * CALENDAR FARE FLOW
+   */
+
+  .addEdge("extractCalendarFare", "resolveCalendarFare")
+
+  .addEdge("resolveCalendarFare", "calendarFare")
+
+  .addEdge("calendarFare", END)
+
+  /*
+   * UNSUPPORTED INTENT
+   */
+
+  .addEdge("unsupported", END)
+  .addEdge(
+    "startBooking",
+    END
   )
 
-
-    /*
-     * NODES
-     */
-
-    .addNode(
-      "initializeAssistant",
-      initializeAssistant
-    )
-
-    .addNode(
-      "detectIntent",
-      detectIntentNode
-    )
-
-    .addNode(
-      "resetSearch",
-      resetSearchNode
-    )
-
-    .addNode(
-      "extractSearch",
-      extractSearchNode
-    )
-
-    .addNode(
-      "selectAirport",
-      selectAirportNode
-    )
-
-    .addNode(
-      "syncOrigin",
-      syncOriginNode
-    )
-
-    .addNode(
-      "resolveSearch",
-      resolveSearchNode
-    )
-
-    .addNode(
-      "validateSearch",
-      validateSearchNode
-    )
-
-    .addNode(
-      "askMissingInfo",
-      askMissingInfoNode
-    )
-
-    .addNode(
-      "searchFlights",
-      searchFlightsNode
-    )
-
-    .addNode(
-      "filterFlightResults",
-      filterFlightResultsNode
-    )
-
-    .addNode(
-      "extractCalendarFare",
-      extractCalendarFareNode
-    )
-
-    .addNode(
-      "resolveCalendarFare",
-      resolveCalendarFareNode
-    )
-
-    .addNode(
-      "calendarFare",
-      calendarFareNode
-    )
-
-    .addNode(
-      "unsupported",
-      unsupportedNode
-    )
-
-
-    /*
-     * START
-     */
-
-    .addEdge(
-      START,
-      "initializeAssistant"
-    )
-
-
-    /*
-     * Decide whether we're handling
-     * a continuation or a new intent.
-     */
-
-    .addConditionalEdges(
-      "initializeAssistant",
-      routeConversationEntry,
-      {
-        detectIntent:
-          "detectIntent",
-
-        extractSearch:
-          "extractSearch",
-
-        selectAirport:
-          "selectAirport",
-
-        syncOrigin:
-          "syncOrigin",
-      }
-    )
-
-
-    /*
-     * INTENT ROUTING
-     */
-
-    .addConditionalEdges(
-      "detectIntent",
-      routeAfterIntent,
-      {
-        resetSearch:
-          "resetSearch",
-
-        extractSearch:
-          "extractSearch",
-
-        extractCalendarFare:
-          "extractCalendarFare",
-
-        unsupported:
-          "unsupported",
-      }
-    )
-
-
-    /*
-     * NEW SEARCH
-     */
-
-    .addEdge(
-      "resetSearch",
-      "extractSearch"
-    )
-
-
-    /*
-     * NORMAL SEARCH FLOW
-     */
-
-    .addEdge(
-      "extractSearch",
-      "resolveSearch"
-    )
-
-    .addEdge(
-      "selectAirport",
-      "validateSearch"
-    )
-
-    .addEdge(
-      "syncOrigin",
-      END
-    )
-
-    .addEdge(
-      "resolveSearch",
-      "validateSearch"
-    )
-
-
-    /*
-     * VALIDATION ROUTING
-     */
-
-    .addConditionalEdges(
-      "validateSearch",
-      routeAfterValidation,
-      {
-        askMissingInfo:
-          "askMissingInfo",
-
-        searchFlights:
-          "searchFlights",
-
-        filterFlightResults:
-          "filterFlightResults",
-      }
-    )
-
-
-    /*
-     * ASK USER FOR MISSING DATA
-     */
-
-    .addEdge(
-      "askMissingInfo",
-      END
-    )
-
-
-    /*
-     * AFTER TRIPXL SEARCH
-     *
-     * Success → filtering
-     * Failure → END
-     */
-
-    .addConditionalEdges(
-      "searchFlights",
-      routeAfterFlightSearch,
-      {
-        filterFlightResults:
-          "filterFlightResults",
-
-        end:
-          END,
-      }
-    )
-
-
-    /*
-     * FILTERED SEARCH RESULTS
-     */
-
-    .addEdge(
-      "filterFlightResults",
-      END
-    )
-
-
-    /*
-     * CALENDAR FARE FLOW
-     */
-
-    .addEdge(
-      "extractCalendarFare",
-      "resolveCalendarFare"
-    )
-
-    .addEdge(
-      "resolveCalendarFare",
-      "calendarFare"
-    )
-
-    .addEdge(
-      "calendarFare",
-      END
-    )
-
-
-    /*
-     * UNSUPPORTED INTENT
-     */
-
-    .addEdge(
-      "unsupported",
-      END
-    );
-
+.addEdge(
+  "submitPassengerDetails",
+  END
+)
+.addEdge("prepareBooking", END)
 
 /*
  * In-memory conversation state.
@@ -617,12 +421,8 @@ const workflow =
  * Later this can be replaced by
  * persistent storage if needed.
  */
-const memory =
-  new MemorySaver();
+const memory = new MemorySaver();
 
-
-export const flightGraph =
-  workflow.compile({
-    checkpointer:
-      memory,
-  });
+export const flightGraph = workflow.compile({
+  checkpointer: memory,
+});

@@ -4,22 +4,41 @@ export const FlightOptionSchema =
   z.object({
     id: z.string(),
 
+    resultIndex:
+      z.string().optional(),
+
+    fareBrand:
+      z.string().optional(),
+
+    isLcc:
+      z.boolean().optional(),
+
+    reviewUrl:
+      z.string().optional(),
+
     airline: z.object({
       code: z.string(),
       name: z.string(),
-      logo: z
-        .string()
-        .nullable()
-        .optional(),
+      logo:
+        z.string()
+          .nullable()
+          .optional(),
     }),
 
-    flightNumber: z.string(),
+    flightNumber:
+      z.string(),
 
-    origin: z.string(),
-    destination: z.string(),
+    origin:
+      z.string(),
 
-    departureTime: z.string(),
-    arrivalTime: z.string(),
+    destination:
+      z.string(),
+
+    departureTime:
+      z.string(),
+
+    arrivalTime:
+      z.string(),
 
     durationMinutes:
       z.number(),
@@ -28,9 +47,7 @@ export const FlightOptionSchema =
       z.number(),
 
     via:
-      z.array(
-        z.string()
-      ),
+      z.array(z.string()),
 
     price: z.object({
       amount:

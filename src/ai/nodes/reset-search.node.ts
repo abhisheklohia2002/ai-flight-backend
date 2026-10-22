@@ -47,6 +47,12 @@ export const resetSearchNode:
       traceId:
         undefined,
 
+      bookingTraceId:
+        undefined,
+
+      selectedFlightResultIndex:
+        undefined,
+
       searchExpiryAt:
         undefined,
 

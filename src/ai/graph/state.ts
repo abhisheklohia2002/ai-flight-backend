@@ -6,12 +6,26 @@ import { FlightSearchExtractionSchema } from "../schemas/flight-search-extractio
 import { FlightOptionSchema } from "../schemas/flight-option.schema.js";
 import { CalendarFareExtractionSchema } from "../schemas/calendar-fare-extraction.schema.js";
 import { CalendarFareResultSchema } from "../schemas/calendar-fare-result.schema.js";
+import { FareQuoteSchema } from "../schemas/fare-quote.schema.js";
+import { PassengerDetailsSchema } from "../../modules/flight/domain/passenger-details.js";
+import { SsrOptionsSchema } from "../schemas/ssr-options.schema.js";
+import { BookingPrepareResponseSchema, SsrSelectionsSchema } from "../schemas/booking-prepare.schema.js";
 
 const AirportSchema = z.object({
-  name: z.string(), code: z.string(), city: z.string(), country: z.string(), radius: z.number(),
-  nearbyAirports: z.array(z.object({
-    name: z.string(), code: z.string(), city: z.string(), country: z.string(), distance: z.number(),
-  })),
+  name: z.string(),
+  code: z.string(),
+  city: z.string(),
+  country: z.string(),
+  radius: z.number(),
+  nearbyAirports: z.array(
+    z.object({
+      name: z.string(),
+      code: z.string(),
+      city: z.string(),
+      country: z.string(),
+      distance: z.number(),
+    }),
+  ),
 });
 
 const SearchStateSchema = z.object({
@@ -70,6 +84,9 @@ export const FlightAssistantState = new StateSchema({
   missingFields: z.array(z.string()).default([]),
   searchResults: z.array(FlightOptionSchema).default([]),
   selectedFlightId: z.string().optional(),
+  /** Booking context is checkpointed independently of search-result lists. */
+  selectedFlightResultIndex: z.string().optional(),
+  bookingTraceId: z.string().optional(),
   assistantMessage: z.string().optional(),
   resolutionErrors: z.array(z.string()).default([]),
   traceId: z.string().optional(),
@@ -97,6 +114,37 @@ export const FlightAssistantState = new StateSchema({
   calendarResults: z.array(CalendarFareResultSchema).default([]),
 
   allSearchResults: z.array(FlightOptionSchema).default([]),
-  pendingAirportSelection: z.enum(["ORIGIN", "DESTINATION"]).nullable().default(null),
+  pendingAirportSelection: z
+    .enum(["ORIGIN", "DESTINATION"])
+    .nullable()
+    .default(null),
   airportCandidates: z.array(AirportSchema).default([]),
+  requestedAction: z.enum([
+      "MESSAGE",
+      "SET_ORIGIN",
+      "START_BOOKING",
+      "SUBMIT_PASSENGER_DETAILS",
+      "PREPARE_BOOKING",
+  ]).optional(),
+  fareQuote: FareQuoteSchema.optional(),
+
+  bookingStep: z
+    .enum(["QUOTE_REVIEW", "PASSENGER_DETAILS", "PASSENGER_DETAILS_COMPLETE", "BOOKING_PREPARED"])
+    .optional(),
+  passengerDetails: PassengerDetailsSchema.optional(),
+  action: z
+    .enum([
+      "MESSAGE",
+      "SET_ORIGIN",
+      "START_BOOKING",
+      "SUBMIT_PASSENGER_DETAILS",
+    ])
+    .optional(),
+
+  requestedPassengerDetails:
+  PassengerDetailsSchema
+    .optional(),
+  ssrOptions: SsrOptionsSchema.optional(),
+  ssrSelections: SsrSelectionsSchema.optional(),
+  bookingPrepare: BookingPrepareResponseSchema.optional(),
 });

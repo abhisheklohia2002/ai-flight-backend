@@ -1,92 +1,63 @@
-import type {
-  Request,
-  Response,
-} from "express";
+import type { Request, Response } from "express";
 
-import {
-  ChatRequestSchema,
-} from "./chat.schema.js";
+import { ChatRequestSchema } from "./chat.schema.js";
 
-import {
-  chatService,
-} from "./chat.service.js";
+import { chatService } from "./chat.service.js";
 import { searchAirportService } from "../flight/application/search-airport.service.js";
-
 
 export async function chatController(
   req: Request,
-  res: Response
+  res: Response,
 ): Promise<void> {
-
-  const parsed =
-    ChatRequestSchema.safeParse(
-      req.body
-    );
-
+  const parsed = ChatRequestSchema.safeParse(req.body);
 
   if (!parsed.success) {
-
     res.status(400).json({
-      success:
-        false,
+      success: false,
 
-      error:
-        "INVALID_REQUEST",
+      error: "INVALID_REQUEST",
 
-      message:
-        "Invalid chat request.",
+      message: "Invalid chat request.",
 
-      details:
-        parsed.error.flatten()
-          .fieldErrors,
+      details: parsed.error.flatten().fieldErrors,
     });
 
     return;
   }
 
-
   try {
-
-    const result =
-      await chatService
-        .sendMessage(
-          parsed.data
-        );
-
+    const result = await chatService.sendMessage(parsed.data);
 
     res.status(200).json({
-      success:
-        true,
+      success: true,
 
       ...result,
     });
-
-
   } catch (error) {
-
-    console.error(
-      "Chat controller error:",
-      error
-    );
-
+    console.error("Chat controller error:", error);
 
     res.status(500).json({
-      success:
-        false,
+      success: false,
 
-      type:
-        "ERROR",
+      type: "ERROR",
 
-      message:
-        "Unable to process your request right now.",
+      message: "Unable to process your request right now.",
     });
   }
 }
 
-export async function airportController(req: Request, res: Response): Promise<void> {
-  const search = typeof req.query.search === "string" ? req.query.search.trim() : "";
+export async function airportController(
+  req: Request,
+  res: Response,
+): Promise<void> {
+  const search =
+    typeof req.query.search === "string" ? req.query.search.trim() : "";
   if (search.length < 2) {
-    res.status(400).json({ success: false, error: "INVALID_SEARCH", message: "search must be at least 2 characters." });
+    res.status(400).json({
+      success: false,
+      error: "INVALID_SEARCH",
+      message: "search must be at least 2 characters.",
+    });
     return;
   }
   try {
@@ -94,7 +65,11 @@ export async function airportController(req: Request, res: Response): Promise<vo
     res.status(200).json({ success: true, airports });
   } catch (error) {
     console.error("Airport controller error:", error);
-    res.status(502).json({ success: false, error: "AIRPORT_SEARCH_FAILED", message: "Unable to search airports right now." });
+    res.status(502).json({
+      success: false,
+      error: "AIRPORT_SEARCH_FAILED",
+      message: "Unable to search airports right now.",
+    });
   }
 }
 
@@ -111,7 +86,10 @@ function wait(milliseconds: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, milliseconds));
 }
 
-export async function streamController(req: Request, res: Response): Promise<void> {
+export async function streamController(
+  req: Request,
+  res: Response,
+): Promise<void> {
   const parsed = ChatRequestSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({
@@ -155,19 +133,62 @@ export async function streamController(req: Request, res: Response): Promise<voi
 
   try {
     const result = await chatService.sendMessage(parsed.data);
+
     if (result.type === "ERROR") {
-      sendEvent(res, "error", { message: result.message });
+      sendEvent(res, "error", {
+        message: result.message,
+      });
+
       return end();
     }
 
-    if (!(await streamText(result.message, result.type))) return end();
+    if (!(await streamText(result.message, result.type))) {
+      return end();
+    }
 
+    /**
+     * Fare quote
+     */
+    if (result.type === "FARE_QUOTE") {
+      sendEvent(res, "fare_quote", {
+        fareQuote: result.data?.fareQuote,
+
+        selectedFlightId: result.data?.selectedFlightId,
+      });
+
+      sendEvent(res, "done", {
+        type: result.type,
+      });
+
+      return end();
+    }
+
+    if (result.type === "PASSENGER_DETAILS_COMPLETE") {
+      sendEvent(res, "ssr_options", { ssrOptions: result.data?.ssrOptions });
+      sendEvent(res, "passenger_details_complete", { bookingStep: "PASSENGER_DETAILS_COMPLETE" });
+      sendEvent(res, "done", { type: result.type });
+      return end();
+    }
+    if (result.type === "BOOKING_PREPARED") {
+      sendEvent(res, "booking_prepared", { bookingPrepare: result.data?.bookingPrepare });
+      sendEvent(res, "done", { type: result.type });
+      return end();
+    }
+
+    /**
+     * Airport selection
+     */
     if (result.type === "AIRPORT_SELECTION") {
       sendEvent(res, "airports", {
         selectionFor: result.data?.airportSelectionFor,
+
         airports: result.data?.airports ?? [],
       });
-      sendEvent(res, "done", { type: result.type });
+
+      sendEvent(res, "done", {
+        type: result.type,
+      });
+
       return end();
     }
 
@@ -200,9 +221,10 @@ export async function streamController(req: Request, res: Response): Promise<voi
     sendEvent(res, "done", { type: result.type });
     end();
   } catch (error) {
-    const message = error instanceof Error && error.name === "AbortError"
-      ? "The request was cancelled."
-      : "Unable to process your request right now.";
+    const message =
+      error instanceof Error && error.name === "AbortError"
+        ? "The request was cancelled."
+        : "Unable to process your request right now.";
     if (!res.writableEnded && !res.destroyed) {
       sendEvent(res, "error", { message });
     }

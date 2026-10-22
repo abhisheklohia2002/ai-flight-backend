@@ -1,0 +1,49 @@
+{
+  "status": "validated",
+  "currency": "INR",
+  "amount": 14225,
+  "grossPayable": 14225,
+  "appliedPromoCode": null,
+  "promoDiscount": 0,
+  "totalPayable": 14225,
+  "quoteStatus": {
+    "isPriceChanged": false
+  },
+  "priceChange": null,
+  "expiresAt": "2026-10-18T15:04:53.255Z",
+  "fare": {
+    "currency": "INR",
+    "passengerBreakdown": [
+      {
+        "type": "adult",
+        "count": 1,
+        "baseFare": 11347,
+        "taxesAndSurcharges": 2778,
+        "publishFare": 14125,
+        "discount": 200,
+        "txlFee": 300,
+        "totalFare": 14225
+      }
+    ],
+    "totals": {
+      "baseFare": 11347,
+      "taxesAndSurcharges": 2778,
+      "discount": 200,
+      "supplierTotal": 13925,
+      "addonsTotal": 0,
+      "grandTotal": 14225
+    },
+    "addons": {
+      "seatAmount": 0,
+      "mealAmount": 0,
+      "baggageAmount": 0,
+      "specialServiceAmount": 0,
+      "totalAmount": 0
+    },
+    "txlFees": {
+      "convenienceFee": 300,
+      "cfarAmount": 0,
+      "dcfarAmount": 0
+    }
+  }
+}

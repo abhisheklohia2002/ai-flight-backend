@@ -1,0 +1,6 @@
+import { z } from "zod";
+
+export const SsrSelectionsSchema = z.array(z.object({ clientPassengerId: z.string(), seats: z.array(z.object({ segmentKey: z.string(), code: z.string() })).default([]), meals: z.array(z.unknown()).default([]), baggage: z.array(z.unknown()).default([]), specialServices: z.array(z.unknown()).default([]) }));
+export const BookingPrepareResponseSchema = z.object({ status: z.string(), currency: z.string(), amount: z.number(), grossPayable: z.number(), totalPayable: z.number(), quoteStatus: z.object({ isPriceChanged: z.boolean() }), priceChange: z.unknown().nullable(), expiresAt: z.string().optional(), fare: z.object({ currency: z.string(), passengerBreakdown: z.array(z.unknown()), totals: z.object({ baseFare: z.number(), taxesAndSurcharges: z.number(), discount: z.number(), supplierTotal: z.number(), addonsTotal: z.number().default(0), grandTotal: z.number() }), addons: z.object({ seatAmount: z.number(), mealAmount: z.number(), baggageAmount: z.number(), specialServiceAmount: z.number(), totalAmount: z.number() }), txlFees: z.object({ convenienceFee: z.number(), cfarAmount: z.number(), dcfarAmount: z.number() }) }) });
+export type SsrSelections = z.infer<typeof SsrSelectionsSchema>;
+export type BookingPrepareResponse = z.infer<typeof BookingPrepareResponseSchema>;

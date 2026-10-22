@@ -13,6 +13,8 @@ import {
 import {
   TripXLCalendarFareProvider,
 } from "./infrastructure/providers/tripxl/tripxl-calendar.provider.js";
+import { TripXLFareQuoteProvider } from "./infrastructure/providers/tripxl/tripxl-fare-quote.provider.js";
+import { FareQuoteService } from "./application/fare-quote.service.js";
 
 
 const tripXLFlightProvider =
@@ -31,4 +33,14 @@ export const searchFlightService =
 export const calendarFareService =
   new CalendarFareService(
     tripXLCalendarFareProvider
+  );
+
+
+  const fareQuoteProvider =
+  new TripXLFareQuoteProvider();
+
+
+export const fareQuoteService =
+  new FareQuoteService(
+    fareQuoteProvider
   );

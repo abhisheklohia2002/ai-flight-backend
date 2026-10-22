@@ -1,0 +1,1273 @@
+{
+  "traceId": "stv3_OYomJwG3pSxB-UviYbdplHc_dDUGP7bB",
+  "journeyType": "oneway",
+  "resultIndexes": [
+    "ofv3_MTrMRyask-Z9cbJuOq_D1JOj8gEpa90D0LGGFQA9b4c"
+  ],
+  "included": [
+    "seats"
+  ],
+  "settings": {
+    "isSpecialFlight": false,
+    "preferenceMealAllowed": false,
+    "showSpecialServices": false
+  },
+  "journeys": {
+    "onward": {
+      "direction": "onward",
+      "resultIndex": "ofv3_MTrMRyask-Z9cbJuOq_D1JOj8gEpa90D0LGGFQA9b4c",
+      "airline": {
+        "code": "AI",
+        "name": "Air India",
+        "logo": "https://devtripxl.blr1.digitaloceanspaces.com/airlines/logos/AI.gif?v=8cdad33fa3852118add4a1c1f36d7881",
+        "isLcc": false
+      },
+      "cabinClass": "economy",
+      "requirements": {
+        "seatRequired": false,
+        "mealRequired": false
+      },
+      "availability": {
+        "seat": true,
+        "meal": false,
+        "infantMeal": false,
+        "baggage": false,
+        "specialServices": false
+      },
+      "freeSsr": {
+        "seat": true,
+        "meal": false,
+        "baggage": false,
+        "specialServices": false
+      },
+      "rules": {
+        "seatSelection": "per-segment",
+        "mealSelection": "per-segment",
+        "baggageSelection": "per-journey",
+        "seatAllowedForInfant": false,
+        "mealAllowedForInfant": true,
+        "baggageAllowedForInfant": false,
+        "maxSeatsPerPassengerPerSegment": 1,
+        "maxMealsPerPassengerPerSegment": 1,
+        "maxBaggagePerPassengerPerSegment": 1,
+        "specialServicesMultiSelect": true
+      },
+      "segments": [
+        {
+          "segmentKey": "DEL::BOM",
+          "origin": "DEL",
+          "destination": "BOM",
+          "airlineCode": "AI",
+          "flightNumber": "AI 2439",
+          "cabinClass": "economy",
+          "seatMap": {
+            "aircraft": {
+              "name": "Airbus A320neo",
+              "seatCount": 132,
+              "layout": "3-3",
+              "note": "Economy cabin"
+            },
+            "cabins": [
+              {
+                "name": "Economy",
+                "columns": [
+                  "A",
+                  "B",
+                  "C",
+                  "D",
+                  "E",
+                  "F"
+                ],
+                "aisleAfter": [
+                  "C"
+                ],
+                "rows": [
+                  {
+                    "row": 7,
+                    "seats": [
+                      {
+                        "id": "7A",
+                        "row": 7,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "7B",
+                        "row": 7,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "7C",
+                        "row": 7,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "7D",
+                        "row": 7,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "7E",
+                        "row": 7,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "7F",
+                        "row": 7,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 8,
+                    "seats": [
+                      {
+                        "id": "8A",
+                        "row": 8,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "8B",
+                        "row": 8,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "8C",
+                        "row": 8,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "8D",
+                        "row": 8,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "8E",
+                        "row": 8,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "8F",
+                        "row": 8,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 9,
+                    "seats": [
+                      {
+                        "id": "9A",
+                        "row": 9,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-recline"
+                      },
+                      {
+                        "id": "9B",
+                        "row": 9,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-recline"
+                      },
+                      {
+                        "id": "9C",
+                        "row": 9,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-recline"
+                      },
+                      {
+                        "id": "9D",
+                        "row": 9,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-recline"
+                      },
+                      {
+                        "id": "9E",
+                        "row": 9,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-recline"
+                      },
+                      {
+                        "id": "9F",
+                        "row": 9,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-recline"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 10,
+                    "seats": [
+                      {
+                        "id": "10A",
+                        "row": 10,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-exit-row"
+                      },
+                      {
+                        "id": "10B",
+                        "row": 10,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-exit-row"
+                      },
+                      {
+                        "id": "10C",
+                        "row": 10,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-exit-row"
+                      },
+                      {
+                        "id": "10D",
+                        "row": 10,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-exit-row"
+                      },
+                      {
+                        "id": "10E",
+                        "row": 10,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-exit-row"
+                      },
+                      {
+                        "id": "10F",
+                        "row": 10,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-exit-row"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 11,
+                    "seats": [
+                      {
+                        "id": "11A",
+                        "row": 11,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-exit-row"
+                      },
+                      {
+                        "id": "11B",
+                        "row": 11,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-exit-row"
+                      },
+                      {
+                        "id": "11C",
+                        "row": 11,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-exit-row"
+                      },
+                      {
+                        "id": "11D",
+                        "row": 11,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-exit-row"
+                      },
+                      {
+                        "id": "11E",
+                        "row": 11,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-exit-row"
+                      },
+                      {
+                        "id": "11F",
+                        "row": 11,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-exit-row"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 12,
+                    "seats": [
+                      {
+                        "id": "12A",
+                        "row": 12,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "12B",
+                        "row": 12,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "12C",
+                        "row": 12,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "12D",
+                        "row": 12,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "12E",
+                        "row": 12,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "12F",
+                        "row": 12,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 14,
+                    "seats": [
+                      {
+                        "id": "14A",
+                        "row": 14,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "14B",
+                        "row": 14,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "14C",
+                        "row": 14,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "14D",
+                        "row": 14,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "14E",
+                        "row": 14,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "14F",
+                        "row": 14,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 15,
+                    "seats": [
+                      {
+                        "id": "15A",
+                        "row": 15,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "15B",
+                        "row": 15,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "15C",
+                        "row": 15,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "15D",
+                        "row": 15,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "15E",
+                        "row": 15,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "15F",
+                        "row": 15,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 16,
+                    "seats": [
+                      {
+                        "id": "16A",
+                        "row": 16,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "16B",
+                        "row": 16,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "16C",
+                        "row": 16,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "16D",
+                        "row": 16,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "16E",
+                        "row": 16,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "16F",
+                        "row": 16,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 17,
+                    "seats": [
+                      {
+                        "id": "17A",
+                        "row": 17,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "17B",
+                        "row": 17,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "17C",
+                        "row": 17,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "17D",
+                        "row": 17,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "17E",
+                        "row": 17,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "17F",
+                        "row": 17,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 18,
+                    "seats": [
+                      {
+                        "id": "18A",
+                        "row": 18,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "18B",
+                        "row": 18,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "18C",
+                        "row": 18,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "18D",
+                        "row": 18,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "18E",
+                        "row": 18,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "18F",
+                        "row": 18,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 19,
+                    "seats": [
+                      {
+                        "id": "19A",
+                        "row": 19,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "19B",
+                        "row": 19,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "19C",
+                        "row": 19,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "19D",
+                        "row": 19,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "19E",
+                        "row": 19,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "19F",
+                        "row": 19,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 20,
+                    "seats": [
+                      {
+                        "id": "20A",
+                        "row": 20,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "20B",
+                        "row": 20,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "20C",
+                        "row": 20,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "20D",
+                        "row": 20,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "20E",
+                        "row": 20,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "20F",
+                        "row": 20,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 21,
+                    "seats": [
+                      {
+                        "id": "21A",
+                        "row": 21,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "21B",
+                        "row": 21,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "21C",
+                        "row": 21,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "21D",
+                        "row": 21,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "21E",
+                        "row": 21,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "21F",
+                        "row": 21,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 22,
+                    "seats": [
+                      {
+                        "id": "22A",
+                        "row": 22,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "22B",
+                        "row": 22,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "22C",
+                        "row": 22,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "22D",
+                        "row": 22,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "22E",
+                        "row": 22,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "22F",
+                        "row": 22,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 23,
+                    "seats": [
+                      {
+                        "id": "23A",
+                        "row": 23,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "23B",
+                        "row": 23,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "23C",
+                        "row": 23,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "23D",
+                        "row": 23,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "23E",
+                        "row": 23,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "23F",
+                        "row": 23,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 24,
+                    "seats": [
+                      {
+                        "id": "24A",
+                        "row": 24,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "24B",
+                        "row": 24,
+                        "column": "B",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "24C",
+                        "row": 24,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "24D",
+                        "row": 24,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "24E",
+                        "row": 24,
+                        "column": "E",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "24F",
+                        "row": 24,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 25,
+                    "seats": [
+                      {
+                        "id": "25A",
+                        "row": 25,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "25B",
+                        "row": 25,
+                        "column": "B",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "25C",
+                        "row": 25,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "25D",
+                        "row": 25,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "25E",
+                        "row": 25,
+                        "column": "E",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "25F",
+                        "row": 25,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 26,
+                    "seats": [
+                      {
+                        "id": "26A",
+                        "row": 26,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "26B",
+                        "row": 26,
+                        "column": "B",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "26C",
+                        "row": 26,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "26D",
+                        "row": 26,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "26E",
+                        "row": 26,
+                        "column": "E",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "26F",
+                        "row": 26,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 27,
+                    "seats": [
+                      {
+                        "id": "27A",
+                        "row": 27,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "27B",
+                        "row": 27,
+                        "column": "B",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "27C",
+                        "row": 27,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "27D",
+                        "row": 27,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "27E",
+                        "row": 27,
+                        "column": "E",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "27F",
+                        "row": 27,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 28,
+                    "seats": [
+                      {
+                        "id": "28A",
+                        "row": 28,
+                        "column": "A",
+                        "available": false,
+                        "price": 0,
+                        "kind": "window"
+                      },
+                      {
+                        "id": "28B",
+                        "row": 28,
+                        "column": "B",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "28C",
+                        "row": 28,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "28D",
+                        "row": 28,
+                        "column": "D",
+                        "available": false,
+                        "price": 0,
+                        "kind": "aisle"
+                      },
+                      {
+                        "id": "28E",
+                        "row": 28,
+                        "column": "E",
+                        "available": false,
+                        "price": 0,
+                        "kind": "middle"
+                      },
+                      {
+                        "id": "28F",
+                        "row": 28,
+                        "column": "F",
+                        "available": false,
+                        "price": 0,
+                        "kind": "window"
+                      }
+                    ]
+                  },
+                  {
+                    "row": 29,
+                    "seats": [
+                      {
+                        "id": "29A",
+                        "row": 29,
+                        "column": "A",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-recline"
+                      },
+                      {
+                        "id": "29B",
+                        "row": 29,
+                        "column": "B",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-recline"
+                      },
+                      {
+                        "id": "29C",
+                        "row": 29,
+                        "column": "C",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-recline"
+                      },
+                      {
+                        "id": "29D",
+                        "row": 29,
+                        "column": "D",
+                        "available": true,
+                        "price": 0,
+                        "kind": "aisle-recline"
+                      },
+                      {
+                        "id": "29E",
+                        "row": 29,
+                        "column": "E",
+                        "available": true,
+                        "price": 0,
+                        "kind": "middle-recline"
+                      },
+                      {
+                        "id": "29F",
+                        "row": 29,
+                        "column": "F",
+                        "available": true,
+                        "price": 0,
+                        "kind": "window-recline"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "wingRows": []
+          }
+        },
+        {
+          "segmentKey": "BOM::IXB",
+          "origin": "BOM",
+          "destination": "IXB",
+          "airlineCode": "AI",
+          "flightNumber": "AI 9980",
+          "cabinClass": "economy",
+          "seatMap": null
+        }
+      ],
+      "meals": [],
+      "baggage": [],
+      "specialServices": []
+    },
+    "return": null
+  }
+}

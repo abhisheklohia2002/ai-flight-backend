@@ -1,32 +1,39 @@
 import {
   z,
 } from "zod";
+import { PassengerDetailsSchema } from "../flight/domain/passenger-details.js";
+import { SsrSelectionsSchema } from "../../ai/schemas/booking-prepare.schema.js";
 
 
 export const ChatRequestSchema =
   z.object({
-
     sessionId:
-      z.string()
-        .min(
-          1,
-          "sessionId is required"
-        ),
+      z.string(),
 
     message:
       z.string()
-        .trim()
-        .max(
-          2000,
-          "message is too long"),
+        .optional(),
 
-    action: z.enum(["MESSAGE", "SET_ORIGIN"]).optional(),
-    origin: z.string().trim().length(3).toUpperCase().optional(),
+    action:
+      z.enum([
+        "MESSAGE",
+        "SET_ORIGIN",
+        "START_BOOKING",
+        "SUBMIT_PASSENGER_DETAILS",
+        "PREPARE_BOOKING",
+      ])
+      .optional(),
 
-  }).superRefine((value, ctx) => {
-    if (value.action === "SET_ORIGIN") {
-      if (!value.origin) ctx.addIssue({ code: "custom", path: ["origin"], message: "origin is required" });
-      return;
-    }
-    if (!value.message) ctx.addIssue({ code: "custom", path: ["message"], message: "message is required" });
+    origin:
+      z.string()
+        .optional(),
+
+    flightId:
+      z.string()
+        .optional(),
+
+    passengerDetails:
+      PassengerDetailsSchema
+        .optional(),
+    ssrSelections: SsrSelectionsSchema.optional(),
   });

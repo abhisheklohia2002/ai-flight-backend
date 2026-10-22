@@ -6,14 +6,47 @@ import type {
   CalendarFareResult,
 } from "../flight/domain/calendar-fare.js";
 
-import type { Airport } from "../flight/domain/airport.js";
+import type {
+  Airport,
+} from "../flight/domain/airport.js";
+
+import type {
+  FareQuote,
+} from "../../ai/schemas/fare-quote.schema.js";
+
+import type {
+  PassengerDetails,
+} from "../flight/domain/passenger-details.js";
+import type { SsrOptions } from "../../ai/schemas/ssr-options.schema.js";
+import type { BookingPrepareResponse, SsrSelections } from "../../ai/schemas/booking-prepare.schema.js";
+
+
+export type BookingStep =
+  | "QUOTE_REVIEW"
+  | "PASSENGER_DETAILS"
+  | "PASSENGER_DETAILS_COMPLETE"
+  | "BOOKING_PREPARED";
 
 
 export interface ChatRequest {
   sessionId: string;
-  message: string;
-  action?: "MESSAGE" | "SET_ORIGIN";
+
+  message?: string;
+
+  action?:
+    | "MESSAGE"
+    | "SET_ORIGIN"
+    | "START_BOOKING"
+    | "SUBMIT_PASSENGER_DETAILS"
+    | "PREPARE_BOOKING";
+
   origin?: string;
+
+  flightId?: string;
+
+  passengerDetails?:
+    PassengerDetails;
+  ssrSelections?: SsrSelections;
 }
 
 
@@ -23,26 +56,46 @@ export type ChatResponseType =
   | "FLIGHT_RESULTS"
   | "CALENDAR_RESULTS"
   | "AIRPORT_SELECTION"
+  | "FARE_QUOTE"
+  | "PASSENGER_DETAILS_COMPLETE"
+  | "BOOKING_PREPARED"
   | "ERROR";
 
 
 export interface ChatResponse {
-  sessionId: string;
+  sessionId:
+    string;
 
   type:
     ChatResponseType;
 
-  message: string;
+  message:
+    string;
 
   data?: {
-    flights?: FlightOption[];
+    flights?:
+      FlightOption[];
 
     calendarFares?:
       CalendarFareResult[];
 
-    airports?: Airport[];
+    airports?:
+      Airport[];
 
-    airportSelectionFor?: "ORIGIN" | "DESTINATION";
+    airportSelectionFor?:
+      "ORIGIN"
+      | "DESTINATION";
+
+    fareQuote?:
+      FareQuote;
+    ssrOptions?: SsrOptions;
+    bookingPrepare?: BookingPrepareResponse;
+
+    selectedFlightId?:
+      string;
+
+    bookingStep?:
+      BookingStep;
 
     search?: {
       origin?: string;
@@ -68,8 +121,10 @@ export interface ChatResponse {
       maxPrice?: number;
     };
 
-    traceId?: string;
+    traceId?:
+      string;
 
-    expiryAt?: string;
+    expiryAt?:
+      string;
   };
 }

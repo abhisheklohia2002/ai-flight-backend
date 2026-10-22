@@ -1,0 +1,71 @@
+{
+  "itineraryId": "DEL-IXB-18/10/2026",
+  "traceId": "stv3_OYomJwG3pSxB-UviYbdplHc_dDUGP7bB",
+  "journeyType": "oneway",
+  "isRoundTrip": false,
+  "isSpecialFlight": false,
+  "bookingForm": {
+    "email": "a@gmail.com",
+    "phone": "8787980987",
+    "countryCode": "+91",
+    "whatsapp": true,
+    "isGstAvailable": false
+  },
+  "bookingDetails": [
+    {
+      "journey": "onward",
+      "resultIndex": "ofv3_MTrMRyask-Z9cbJuOq_D1JOj8gEpa90D0LGGFQA9b4c",
+      "isLcc": false,
+      "fareBrand": "Private",
+      "fareType": "RegularFare",
+      "refundable": true,
+      "segments": [
+        {
+          "segmentIndicator": 1,
+          "origin": "DEL",
+          "destination": "BOM",
+          "airlineCode": "AI",
+          "flightNumber": "AI 2439",
+          "fareClass": "L1"
+        },
+        {
+          "segmentIndicator": 2,
+          "origin": "BOM",
+          "destination": "IXB",
+          "airlineCode": "AI",
+          "flightNumber": "AI 9980",
+          "fareClass": "L1"
+        }
+      ],
+      "passengers": [
+        {
+          "clientPassengerId": "adult-0",
+          "passengerType": "ADT",
+          "title": "Mr",
+          "firstName": "QCCA",
+          "lastName": "ACACA",
+          "gender": "Male",
+          "nationality": "Indian",
+          "countryCode": "+91",
+          "countryName": "India",
+          "specialAssistance": false,
+          "ssr": {
+            "seats": [
+              {
+                "segmentKey": "DEL::BOM",
+                "code": "14A"
+              }
+            ],
+            "meals": [],
+            "baggage": [],
+            "specialServices": []
+          }
+        }
+      ]
+    }
+  ],
+  "clientPricing": {
+    "currency": "INR",
+    "amount": 14225
+  }
+}

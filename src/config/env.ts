@@ -24,24 +24,17 @@ const envSchema = z.object({
 
   REDIS_URL: z.string().optional(),
   APP_TIMEZONE: z.string().default("Asia/Kolkata"),
- 
-  TRIPXL_API_TIMEOUT_MS:
-  z.coerce
-    .number()
-    .int()
-    .positive()
-    .default(90000),
-    
-  TRIPXL_ACCESS_KEY:
-    z.string().min(
-      1,
-      "TRIPXL_ACCESS_KEY is required"
-    ),
-    FRONTEND_URL:z.string().default("FRONTEND_URL"),
-    TRIPXL_AIRPORT_SEARCH_PATH:
-  z.string().default(
-    "/flight/v1/airport/details/library"
-  ),
+
+  TRIPXL_API_TIMEOUT_MS: z.coerce.number().int().positive().default(90000),
+
+  TRIPXL_ACCESS_KEY: z.string().min(1, "TRIPXL_ACCESS_KEY is required"),
+  FRONTEND_URL: z.string().default("FRONTEND_URL"),
+  TRIPXL_AIRPORT_SEARCH_PATH: z
+    .string()
+    .default("/flight/v1/airport/details/library"),
+  TRIPXL_FARE_QUOTE_PATH: z.string().default("TRIPXL_FARE_QUOTE_PATH"),
+  TRIPXL_SSR_OPTIONS_PATH: z.string().default("/flight/v3/ssr/options"),
+  TRIPXL_BOOKING_PREPARE_PATH: z.string().default("/flight/v3/booking/prepare"),
 });
 
 const result = envSchema.safeParse(process.env);
